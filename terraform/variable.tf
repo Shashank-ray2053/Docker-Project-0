@@ -16,7 +16,7 @@ variable "public_subnet_1" {
 variable "az_1" {
   description = "Availiability zone 1"
   type = string
-  default = "us-east-1a"
+  default = "us-east-1"
 }
 
 
