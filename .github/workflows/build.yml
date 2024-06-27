@@ -39,5 +39,13 @@ jobs:
         id: apply
         run: terraform apply --auto-approve
         working-directory: ./terraform
+        
+      - name: Build Docker Image
+        id: build-image
+        run: |
+          docker build -t skr-python .
+        working-directory: ./app
+
+
 
 
