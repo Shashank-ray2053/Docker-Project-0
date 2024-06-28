@@ -73,6 +73,9 @@ jobs:
   install_awscli_ec2:
     runs-on: ubuntu-latest
     steps:
+
+    - name: Ensure boto3 and botocore modules are installed
+      run : pip3 install boto3 botocore
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
