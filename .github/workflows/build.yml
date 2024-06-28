@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Configure AWS Credential 
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -55,7 +55,7 @@ jobs:
         AWS_REGION: us-east-1
 
      - name: checkout
-       uses: actions/checkout@v2
+       uses: actions/checkout@v4
 
      - name: Build docker image form app
        run: docker build -t shashank-python-image:latest
