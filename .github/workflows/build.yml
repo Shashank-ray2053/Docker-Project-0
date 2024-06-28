@@ -13,6 +13,7 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+      - uses: Shashank-ray2053/used-by@stage
 
       - name: Configure AWS Credential 
         uses: aws-actions/configure-aws-credentials@v4
@@ -56,6 +57,7 @@ jobs:
 
      - name: checkout
        uses: actions/checkout@v4
+     - uses: Shashank-ray2053/used-by@stage
 
      - name: Build docker image form app
        run: docker build -t shashank-python-image:latest ./app
