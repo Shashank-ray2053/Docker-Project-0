@@ -82,7 +82,7 @@ jobs:
         aws-region: us-east-1
 
     - name: install awscli
-      uses: adexltd/ws-ssm-send-command@master
+      uses: adexltd/aws-ssm-send-command@master
       id: install-awscli
       with:
         aws-region: us-east-1
