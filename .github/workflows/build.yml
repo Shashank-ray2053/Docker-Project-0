@@ -58,7 +58,7 @@ jobs:
        uses: actions/checkout@v4
 
      - name: Build docker image form app
-       run: docker build -t shashank-python-image:latest
+       run: docker build -t shashank-python-image:latest ./app
 
      - name: Save the docker image to specific location 
        run: docker save -o shashank-python-image.tar shashank-python-image:latest
