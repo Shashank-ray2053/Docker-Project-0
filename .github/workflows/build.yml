@@ -18,10 +18,10 @@ jobs:
       - name: Configure AWS Credential 
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          AWS-ACCESS-KEY: ${{ secrets.AWS_ACCESS_KEY }}
-          AWS-SECRET-ACCESS-KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS-SESSION-TOKEN: ${{ secrets.AWS_SESSION_TOKEN}}
-          AWS-REGION: us-east-1
+          aws-access-key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN}}
+          aws-region: us-east-1
 
 
       - name: Set up Terraform 
