@@ -46,29 +46,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials
-      with:
+     - name: Configure AWS Credentials
+       uses: aws-actions/configure-aws-credentials
+       with:
         AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
         AWS_REGION: us-east-1
 
-    - name: checkout
-      uses: actions/checkout@v2
+     - name: checkout
+       uses: actions/checkout@v2
 
-    - name: Build docker image form app
-      run: docker build -t shashank-python-image:latest
+     - name: Build docker image form app
+       run: docker build -t shashank-python-image:latest
 
-    - name: Save the docker image to specific location 
-      run: docker save -o shashank-python-image.tar shashank-python-image:latest
+     - name: Save the docker image to specific location 
+       run: docker save -o shashank-python-image.tar shashank-python-image:latest
 
 
-    - name: install boto3 and botocore
-      run: pip3 install boto3 botocore
+     - name: install boto3 and botocore
+       run: pip3 install boto3 botocore
 
-    - name: upload docker image to s3
-      run: aws s3 cp shashank-python-image.tar s3://intern-2-s3-bucket/shashank-python-image.tar
+     - name: upload docker image to s3
+       run: aws s3 cp shashank-python-image.tar s3://intern-2-s3-bucket/shashank-python-image.tar
 
 
 
