@@ -82,6 +82,7 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+        instance-id: ${{ secrets.INSTANCE_ID }}
         aws-region: us-east-1
 
     - name: Install AWS CLI using AWS SSM
@@ -93,8 +94,8 @@ jobs:
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip
           sudo ./aws/install
-        instance-id: ${{ secrets.INSTANCE_ID }}
-        region: us-east-1
+        
+       
 
 
 
