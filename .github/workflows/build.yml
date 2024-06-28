@@ -82,12 +82,17 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-        instance-ids: ${{ secrets.INSTANCE_ID }}
         aws-region: us-east-1
 
     - name: Install AWS CLI using AWS SSM
       uses: adexltd/aws-ssm-send-command@master
       with:
+        aws-region: us-east-1
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+        instance-ids: ${{ secrets.INSTANCE_ID }}
+
         ssm-command: |
           sudo apt update
           sudo apt install -y unzip
