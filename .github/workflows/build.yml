@@ -85,7 +85,7 @@ jobs:
         aws-region: us-east-1
 
     - name: Install AWS CLI using AWS SSM
-      uses: aws-actions/aws-cli-install@v1
+      uses: adexltd/aws-ssm-send-command@master
       with:
         ssm-command: |
           sudo apt update
