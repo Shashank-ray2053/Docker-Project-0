@@ -142,7 +142,7 @@ jobs:
           command: |
             aws s3 cp s3://intern-2-s3-bucket/shashank-python-image.tar /home/ubuntu/
             sudo docker load --input shashank-python-image.tar
-            sudo docker run -d -p 8000:8000 --name shashank-container sshashank-python-image:latest
+            sudo docker run -d -p 8000:8000 --name shashankk-container sshashank-python-image:latest
 
 
         
