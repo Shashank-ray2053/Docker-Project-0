@@ -91,7 +91,7 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-        instance-ids: ${{ secrets.INSTANCE_ID }}
+        ec2_instance_id: ${{ secrets.INSTANCE_ID }}
 
         ssm-command: |
           sudo apt update
@@ -123,7 +123,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          instance-ids: ${{ secrets.INSTANCE_ID }}
+          ec2_instance_id: ${{ secrets.INSTANCE_ID }}
 
           working-directory: /home/ubuntu/
           command: sudo apt install docker.io -y
