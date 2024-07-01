@@ -91,11 +91,11 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-        ec2_instance_id: ${{ secrets.INSTANCE_ID }}
+        instance-ids: ${{ secrets.INSTANCE_ID }}
 
         ssm-command: |
           sudo apt update
-          sudo snap install -y unzip
+          sudo apt install -y unzip
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip
           sudo ./aws/install
@@ -123,7 +123,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          ec2_instance_id: ${{ secrets.INSTANCE_ID }}
+          instance-ids: ${{ secrets.INSTANCE_ID }}
 
           working-directory: /home/ubuntu/
           command: sudo apt install docker.io -y
@@ -136,7 +136,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          ec2_instance_id: ${{ secrets.INSTANCE_ID }}
+          instance-ids: ${{ secrets.INSTANCE_ID }}
 
           working-directory: /home/ubuntu/
           command: |
