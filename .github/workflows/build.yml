@@ -1,4 +1,6 @@
-name: Terraform CI CD Pipeline for deploying resources
+name: Terraform CI CD Pipline for deplying the resources
+run-name: ${{ github.actor}} has triggered the Pipline
+
 on:
   push:
     branches:
@@ -11,36 +13,31 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+      
 
-      - name: Configure AWS Credentials 
+      - name: Configure AWS Credential 
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN}}
           aws-region: us-east-1
+
 
       - name: Set up Terraform 
         uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.0.2  # Replace with your desired Terraform version
-          nodejs_version: '20'      # Ensure to use Node.js version 20
-
       - name: Terraform init
         id: init
         run: terraform init
         working-directory: ./terraform
-
       - name: Terraform validate
         id: validate
         run: terraform validate
         working-directory: ./terraform
-
       - name: Terraform plan
         id: plan
         run: terraform plan
         working-directory: ./terraform
-
       - name: Terraform apply
         id: apply
         run: terraform apply --auto-approve
@@ -49,62 +46,66 @@ jobs:
   docker-build:
     runs-on: ubuntu-latest
     steps:
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws-region: us-east-1
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+        aws-region: us-east-1
 
-      - name: checkout
-        uses: actions/checkout@v4
+    - name: checkout
+      uses: actions/checkout@v4
 
-      - name: Build docker image from app
-        run: docker build -t shashank-python-image:latest ./app
+    - name: Build docker image from app
+      run: docker build -t shashank-python-image:latest ./app
 
-      - name: Save the docker image to specific location 
-        run: docker save -o shashank-python-image.tar shashank-python-image:latest
+    - name: Save the docker image to specific location 
+      run: docker save -o shashank-python-image.tar shashank-python-image:latest
 
-      - name: Install boto3 and botocore
-        run: pip3 install boto3 botocore
+    - name: Install boto3 and botocore
+      run: pip3 install boto3 botocore
 
-      - name: Upload docker image to S3
-        run: aws s3 cp shashank-python-image.tar s3://intern-2-s3-bucket/shashank-python-image.tar
+    - name: Upload docker image to S3
+      run: aws s3 cp shashank-python-image.tar s3://intern-2-s3-bucket/shashank-python-image.tar
+
 
   install_awscli_ec2:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Ensure boto3 and botocore modules are installed
-        run: pip3 install boto3 botocore
+   runs-on: ubuntu-latest
+   steps:
+    - name: Ensure boto3 and botocore modules are installed
+      run: pip3 install boto3 botocore
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws-region: us-east-1
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+        aws-region: us-east-1
 
-      - name: Install AWS CLI using AWS SSM
-        uses: adexltd/aws-ssm-send-command@master
-        with:
-          aws-region: us-east-1
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          instance-ids: ${{ secrets.INSTANCE_ID }}
-          command: |
-            sudo apt update
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
+    - name: Install AWS CLI using AWS SSM
+      uses: adexltd/aws-ssm-send-command@master
+      with:
+        aws-region: us-east-1
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+        instance-ids: ${{ secrets.INSTANCE_ID }}
+
+        ssm-command: |
+          sudo apt update
+          sudo apt install -y unzip
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
+
 
   configure_ansible:
     runs-on: ubuntu-latest
     steps:
       - name: Ensure boto3 and botocore modules are installed
-        run: pip3 install boto3 botocore
+        run : pip3 install boto3 botocore
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -116,26 +117,38 @@ jobs:
 
       - name: Download docker using ssm send-command
         uses: adexltd/aws-ssm-send-command@master
+        id: download-docker
         with:
           aws-region: us-east-1
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           instance-ids: ${{ secrets.INSTANCE_ID }}
+
           working-directory: /home/ubuntu/
-          command: |
-            sudo apt install docker.io -y
+          command: sudo apt install docker.io -y
 
       - name: AWS SSM Send-Command
         uses: adexltd/aws-ssm-send-command@master
+        id: transfer-code
         with:
           aws-region: us-east-1
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           instance-ids: ${{ secrets.INSTANCE_ID }}
+
           working-directory: /home/ubuntu/
           command: |
             aws s3 cp s3://intern-2-s3-bucket/shashank-python-image.tar /home/ubuntu/
             sudo docker load --input shashank-python-image.tar
-            sudo docker run -d -p 8000:8000 --name shashank-container shashank-python-image:latest
+            sudo docker run -d -p 8000:8000 --name shashank-container sshashank-python-image:latest
+
+
+        
+       
+
+
+
+
+
