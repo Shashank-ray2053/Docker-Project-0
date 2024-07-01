@@ -103,7 +103,6 @@ jobs:
 
   configure_ansible:
     runs-on: ubuntu-latest
-    needs: download_build_app
     steps:
       - name: Ensure boto3 and botocore modules are installed
         run : pip3 install boto3 botocore
