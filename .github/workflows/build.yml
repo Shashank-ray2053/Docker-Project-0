@@ -101,7 +101,7 @@ jobs:
           sudo ./aws/install
 
 
-  configure_ansible:
+  download-image_ec2:
     runs-on: ubuntu-latest
     steps:
       - name: Ensure boto3 and botocore modules are installed
